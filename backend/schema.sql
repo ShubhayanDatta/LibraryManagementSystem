@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS USERS
 );
 CREATE TABLE IF NOT EXISTS LENDING
 (  
-   record_id INTEGER primary key AUTOINCREMENT,
-   book_id INTEGER, 
-   user_id INTEGER, 
+   record_id integer primary key AUTOINCREMENT,
+   book_id integer, 
+   user_id integer, 
    date_of_lending DATE,
    date_of_return DATE,
    FOREIGN KEY(book_id) REFERENCES BOOKS(book_id),
@@ -30,4 +30,12 @@ CREATE TABLE IF NOT EXISTS ADMIN
    admin_id INTEGER,
    password text
 );
+CREATE TABLE IF NOT EXISTS LOGIN_RECORD
+(
+   token integer primary key,
+   user_id integer,
+   login_time TIMESTAMP,
+   FOREIGN KEY(user_id) REFERENCES USERS(user_id)
+);
+
 
