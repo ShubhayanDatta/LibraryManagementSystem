@@ -1,5 +1,6 @@
 import sqlite3
 import time
+import hashlib
 from datetime import date, datetime, timedelta
 
 connection = sqlite3.connect('database.sqlite',check_same_thread=False)
@@ -20,7 +21,7 @@ def check_valid_token(token):
       return None
    else:
       current_time= time.time()
-      max_time= datetime.fromtimestamp(result[2]) + timedelta(seconds=30)
+      max_time= datetime.fromtimestamp(float(result[2])) + timedelta(seconds=30)
       if current_time>max_time:
          return None
       else:
@@ -102,8 +103,9 @@ def login_user():
    if result==None:
     return 'wrong email/password'
    else:
-    new_access_token= 'were'
-    cursor.execute(f"insert into LOGIN_RECORD(token,user_id,login_time,) values('{new_access_token}','{result[0]}','{time.time()}')")
+    unique_string= str(result[0])+email+str(time.time())
+    new_access_token= hashlib.md5(unique_string.encode()).hexdigest()
+    cursor.execute(f"insert into LOGIN_RECORD(token,user_id,login_time) values('{new_access_token}','{result[0]}','{str(time.time())}')")
     result_dictionary={'user_id':result[0],'name':result[1],'email':result[2],'contact_number':result[3],'access_token':new_access_token}
     return result_dictionary
    
@@ -123,7 +125,10 @@ def login_admin():
 def lend_book():
    book_id=(request.args.get('book_id'))
    user_id=(request.args.get('user_id'))
+   token=(request.form['token'])
    today = date.today()
+   if not check_valid_token(token):
+      return 'invalid logintime'
    cursor.execute(f"insert into LENDING(book_id, user_id, date_of_lending) values ('{book_id}', '{user_id}', '{today}');")
    connection.commit()
    return 'book borrowed'

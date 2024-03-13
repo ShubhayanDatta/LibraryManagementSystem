@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS ADMIN
 );
 CREATE TABLE IF NOT EXISTS LOGIN_RECORD
 (
-   token integer primary key,
+   token text primary key,
    user_id integer,
-   login_time TIMESTAMP,
+   login_time text,
    FOREIGN KEY(user_id) REFERENCES USERS(user_id)
 );
 
