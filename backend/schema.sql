@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS LOGIN_RECORD
 (
    token text primary key,
    user_id integer,
-   login_time text,
+   login_time timestamp,
    FOREIGN KEY(user_id) REFERENCES USERS(user_id)
 );
 

@@ -20,8 +20,8 @@ def check_valid_token(token):
    if result==None:
       return None
    else:
-      current_time= time.time()
-      max_time= datetime.fromtimestamp(float(result[2])) + timedelta(seconds=30)
+      current_time= datetime.fromtimestamp(time.time())
+      max_time= datetime.fromtimestamp(result[2]) + timedelta(seconds=120)
       if current_time>max_time:
          return None
       else:
@@ -105,7 +105,7 @@ def login_user():
    else:
     unique_string= str(result[0])+email+str(time.time())
     new_access_token= hashlib.md5(unique_string.encode()).hexdigest()
-    cursor.execute(f"insert into LOGIN_RECORD(token,user_id,login_time) values('{new_access_token}','{result[0]}','{str(time.time())}')")
+    cursor.execute(f"insert into LOGIN_RECORD(token,user_id,login_time) values('{new_access_token}','{result[0]}','{time.time()}')")
     result_dictionary={'user_id':result[0],'name':result[1],'email':result[2],'contact_number':result[3],'access_token':new_access_token}
     return result_dictionary
    
@@ -125,7 +125,7 @@ def login_admin():
 def lend_book():
    book_id=(request.args.get('book_id'))
    user_id=(request.args.get('user_id'))
-   token=(request.form['token'])
+   token=(request.headers['access_token'])
    today = date.today()
    if not check_valid_token(token):
       return 'invalid logintime'
