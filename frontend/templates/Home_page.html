@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Library Management System</title>
+</head>
+<body>
+
+<h1>ONLINE LIBRARY</h1>
+
+<p>This is a library of e-books</p>
+
+<form action="/handle_search" method="POST">
+    <input type="text" id="query" name="query" ><br>
+    <input type="submit" value="Search">
+</form>
+{% for books in results %}
+  <p>{{books['book_name']}}</p>
+{% endfor %}
+</body>
+</html>

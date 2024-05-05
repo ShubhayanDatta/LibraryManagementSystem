@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Search results</title>
+</head>
+<body>
+<form action="/handle_search" method="POST">
+    <input type="text" id="query" name="query" ><br>
+    <input type="submit" value="Search">
+</form>
+
+{% if found == 0 %}
+  <p>no results found</p>
+{% else %}
+  {% for books in results %}
+     <p>{{books['book_name']}}</p>
+  {% endfor %}
+{% endif %}
+</body>
+</html>
