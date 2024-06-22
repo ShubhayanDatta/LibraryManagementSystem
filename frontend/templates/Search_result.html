@@ -13,7 +13,7 @@
   <p>no results found</p>
 {% else %}
   {% for books in results %}
-     <p>{{books['book_name']}}</p>
+     <a href="/book_details/{{books['book_id']}}"><p>{{books['book_name']}}</p></a>
   {% endfor %}
 {% endif %}
 </body>

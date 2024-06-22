@@ -59,6 +59,11 @@ def handle_search():
    else:
       return render_template('Search_result.html',results=search_response.json(),found=1)
 
+@app.route('/book_details/<int:book_id>',methods=['GET'])
+def show_bookDetails(book_id):
+   search_response=requests.get(f'{backend_url}/display',params={'book_id':book_id})
+   return render_template('Book_detail.html',books=search_response.json())
+
 
 
 

@@ -47,9 +47,8 @@ def remove_book():
 
 @app.route('/display')
 def show_book():
-   book_name=(request.args.get('book_name'))
    book_id=(request.args.get('book_id'))
-   cursor.execute(f"select * from BOOKS where book_name ='{book_name}' and book_id ='{book_id}';")
+   cursor.execute(f"select * from BOOKS where book_id ='{book_id}';")
    result=cursor.fetchall()
    result_dictionary={'book_id':result[0][0],'book_name':result[0][1],'author':result[0][2],'summary':result[0][3],'genre':result[0][4]} 
    return result_dictionary

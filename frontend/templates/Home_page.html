@@ -14,7 +14,7 @@
     <input type="submit" value="Search">
 </form>
 {% for books in results %}
-  <p>{{books['book_name']}}</p>
+<a href="/book_details/{{books['book_id']}}"><p>{{books['book_name']}}</p></a>
 {% endfor %}
 </body>
 </html>
