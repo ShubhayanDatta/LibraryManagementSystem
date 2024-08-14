@@ -52,11 +52,10 @@ def remove_book():
    user_id=check_valid_token(token,True)
    if not user_id:
       return 'invalid login'
-   book_name=(request.form['book_name'])
    book_id=(request.form['book_id'])
-   cursor.execute(f"delete from BOOKS where book_name ='{book_name}' and book_id ='{book_id}' ")
+   cursor.execute(f"delete from BOOKS where book_id ='{book_id}' ")
    connection.commit()    
-   return "book removed from the library"
+   return "success"
 
 @app.route('/display')
 def show_book():

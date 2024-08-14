@@ -9,10 +9,12 @@
 
 <p>This is all the details of e-book</p>
 <p>Book Name : {{books['book_name']}}</p>
+<p>Book ID : {{books['book_id']}}</p>
 <p>Genre : {{books['genre']}}</p>
 <p>Author of the Book : {{books['author']}}</p>
 <p>Summary : {{books['summary']}}</p>
-<a href="/handle_read/{{books['book_id']}}"><button type="button">READ</button></a>
+<a href="/handle_update/{{books['book_id']}}"><button type="button">UPDATE</button></a>
+<a href="/handle_delete/{{books['book_id']}}"><button type="button">DELETE BOOK</button></a>
 
 </body>
 </html>

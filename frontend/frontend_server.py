@@ -112,9 +112,24 @@ def admin_login():
 def add_book():
    return render_template('add.html')  
 
-@app.route('/delete_book')
-def delete_book():
-   return render_template('delete.html')  
+@app.route('/search_delete_book')
+def search_delete():
+   return render_template('Search_delete.html')  
+
+@app.route('/Admin_book_detail/<int:book_id>',methods=['GET'])
+def admin_bookDetails_(book_id):
+   search_response=requests.get(f'{backend_url}/display',params={'book_id':book_id})
+   return render_template('Admin_book_detail.html',books=search_response.json())
+
+@app.route('/admin_search',methods=['POST'])
+def admin_search():
+   query=(request.form['query'])
+   search_response=requests.get(f'{backend_url}/search',params={'search_term':query})
+   if search_response.text=='no match found':
+      return render_template('Search_delete.html',found=0)
+   else:
+      return render_template('Search_delete.html',results=search_response.json(),found=1)
+
 
 @app.route('/handle_add_book',methods=['POST'])
 def handle_add_book():
@@ -123,14 +138,23 @@ def handle_add_book():
    summary=(request.form['summary'])
    genre=(request.form['genre'])
    book_url=(request.form['book_url'])
-   form_data = {'book_name': book_name,'author': author, 'summary': summary, 'genre': genre, 'book_name': book_url}
-   response=requests.post(f'{backend_url}/add',data=form_data, headers={'Authorization':session['access_token']})
+   form_data = {'book_name': book_name,'author': author, 'summary': summary, 'genre': genre, 'book_url': book_url}
+   response=requests.post(f'{backend_url}/add',data=form_data,headers={'Authorization':session['access_token']})
    print(response.text)
    if response.text=="success":
-      return redirect('/Admin_page?message=SUCCESS')
+      return redirect('/admin_page?message=SUCCESS')
    else:
-      return redirect('/Admin_page?message=FAILURE')
+      return redirect('/admin_page?message=FAILURE')
 
+@app.route('/handle_delete/<int:book_id>',methods=['GET'])
+def handle_delete_book(book_id):
+   form_data = {'book_id': book_id}
+   response=requests.post(f'{backend_url}/delete',data=form_data,headers={'Authorization':session['access_token']})
+   print(response.text)
+   if response.text=="success":
+      return redirect('/admin_page?message=SUCCESS')
+   else:
+      return redirect('/admin_page?message=FAILURE')
    
 
 if __name__ == '__main__':
