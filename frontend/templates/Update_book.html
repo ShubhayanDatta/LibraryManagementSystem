@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>UPDATE</h1>
+
+<p>Enter the Updates:</p>
+
+<form action="/handle_update/{{books['book_id']}}" method="POST">
+  <label for="book_name">Book Name : {{books['book_name']}}-></label><br>
+  <input type="text" id="book_name" name="book_name" value="{{books['book_name']}}" ><br>
+  <label for="genre">Genre : {{books['genre']}}-></label><br>
+  <input type="text" id="genre" name="genre" value="{{books['genre']}}" ><br>
+  <label for="author">Author of the Book : {{books['author']}}-></label><br>
+  <input type="text" id="author" name="author" value="{{books['author']}}" ><br>
+  <label for="summary">Summary : {{books['summary']}}-></label><br>
+  <input type="text" id="summary" name="summary" value="{{books['summary']}}" ><br>
+  <label for="book_url">Book Location : {{books['book_url']}}-></label><br>
+  <input type="text" id="book_url" name="book_url" value="{{books['book_url']}}" ><br>
+  <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

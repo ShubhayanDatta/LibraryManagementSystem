@@ -112,9 +112,9 @@ def admin_login():
 def add_book():
    return render_template('add.html')  
 
-@app.route('/search_delete_book')
-def search_delete():
-   return render_template('Search_delete.html')  
+@app.route('/search_delete_update_book')
+def search_delete_update():
+   return render_template('Admin_search.html')  
 
 @app.route('/Admin_book_detail/<int:book_id>',methods=['GET'])
 def admin_bookDetails_(book_id):
@@ -126,9 +126,9 @@ def admin_search():
    query=(request.form['query'])
    search_response=requests.get(f'{backend_url}/search',params={'search_term':query})
    if search_response.text=='no match found':
-      return render_template('Search_delete.html',found=0)
+      return render_template('Admin_search.html',found=0)
    else:
-      return render_template('Search_delete.html',results=search_response.json(),found=1)
+      return render_template('Admin_search.html',results=search_response.json(),found=1)
 
 
 @app.route('/handle_add_book',methods=['POST'])
@@ -155,6 +155,27 @@ def handle_delete_book(book_id):
       return redirect('/admin_page?message=SUCCESS')
    else:
       return redirect('/admin_page?message=FAILURE')
+
+@app.route('/update_book/<int:book_id>',methods=['GET'])
+def update_book(book_id):
+   search_response=requests.get(f'{backend_url}/display',params={'book_id':book_id})
+   return render_template('Update_book.html',books=search_response.json())
+
+@app.route('/handle_update/<int:book_id>',methods=['POST'])
+def handle_update_book(book_id):
+   book_name=(request.form['book_name'])
+   genre=(request.form['genre'])
+   author=(request.form['author'])
+   summary=(request.form['summary'])
+   book_url=(request.form['book_url'])
+   form_data = {'book_id': book_id, 'book_name': book_name, 'genre': genre, 'author': author, 'summary': summary, 'book_url': book_url}
+   response=requests.post(f'{backend_url}/update',data=form_data,headers={'Authorization':session['access_token']})
+   print(response.text)
+   if response.text=="success":
+      return redirect('/admin_page?message=SUCCESS')
+   else:
+      return redirect('/admin_page?message=FAILURE')
+
    
 
 if __name__ == '__main__':

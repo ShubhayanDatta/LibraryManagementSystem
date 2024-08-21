@@ -57,12 +57,28 @@ def remove_book():
    connection.commit()    
    return "success"
 
+@app.route('/update',methods=['POST'])
+def update():
+   token=(request.headers['Authorization'])
+   user_id=check_valid_token(token,True)
+   if not user_id:
+      return 'invalid login'
+   book_id=(request.form['book_id'])
+   book_name=(request.form['book_name'])
+   author=(request.form['author'])
+   summary=(request.form['summary'])
+   genre=(request.form['genre'])
+   book_url=(request.form['book_url'])
+   cursor.execute(f"update BOOKS set book_name ='{book_name}', author ='{author}', summary ='{summary}', genre='{genre}', book_url ='{book_url}'  where book_id ='{book_id}' ")
+   connection.commit()    
+   return "success"
+
 @app.route('/display')
 def show_book():
    book_id=(request.args.get('book_id'))
    cursor.execute(f"select * from BOOKS where book_id ='{book_id}';")
    result=cursor.fetchall()
-   result_dictionary={'book_id':result[0][0],'book_name':result[0][1],'author':result[0][2],'summary':result[0][3],'genre':result[0][4]} 
+   result_dictionary={'book_id':result[0][0],'book_name':result[0][1],'author':result[0][2],'summary':result[0][3],'genre':result[0][4],'book_url':result[0][5]} 
    return result_dictionary
 
 @app.route('/search')
