@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>BOOK DETAILS</title>
-</head>
-<body>
-
+{% extends 'base.html' %}
+{% block content %}
 <h1>ONLINE LIBRARY</h1>
 
-<p>This is all the details of e-book</p>
+<p>This is all the details of the e-book</p>
 <p>Book Name : {{books['book_name']}}</p>
 <p>Genre : {{books['genre']}}</p>
 <p>Author of the Book : {{books['author']}}</p>
 <p>Summary : {{books['summary']}}</p>
 <a href="/handle_read/{{books['book_id']}}"><button type="button">READ</button></a>
 
-</body>
-</html>
+{% endblock %} 

@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Library Management System</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
 <h1>ONLINE LIBRARY</h1>
 
@@ -14,7 +10,6 @@
     <input type="submit" value="Search">
 </form>
 {% for books in results %}
-<a href="/book_details/{{books['book_id']}}"><p>{{books['book_name']}}</p></a>
+<a href="/book_details/{{books['book_id']}}"><p>{{books['book_name']}} by {{books['author']}}</p></a>
 {% endfor %}
-</body>
-</html>
+{% endblock %}

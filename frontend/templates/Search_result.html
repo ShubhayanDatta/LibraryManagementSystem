@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Search results</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+
 <form action="/handle_search" method="POST">
     <input type="text" id="query" name="query" ><br>
     <input type="submit" value="Search">
@@ -13,8 +10,7 @@
   <p>no results found</p>
 {% else %}
   {% for books in results %}
-     <a href="/book_details/{{books['book_id']}}"><p>{{books['book_name']}}</p></a>
+     <a href="/book_details/{{books['book_id']}}"><p>{{books['book_name']}} by {{books['author']}}</p></a>
   {% endfor %}
 {% endif %}
-</body>
-</html>
+{% endblock %}

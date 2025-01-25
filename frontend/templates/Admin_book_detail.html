@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>BOOK DETAILS</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %} 
 
 <h1>ONLINE LIBRARY</h1>
 
@@ -16,5 +12,4 @@
 <a href="/update_book/{{books['book_id']}}"><button type="button">UPDATE</button></a>
 <a href="/handle_delete/{{books['book_id']}}"><button type="button">DELETE BOOK</button></a>
 
-</body>
-</html>
+{% endblock %} 

@@ -2,7 +2,7 @@ import requests
 from flask import Flask, render_template, request, jsonify, redirect, session
 app = Flask(__name__)
 app.secret_key='peru'
-
+app.static_folder="static"
 backend_url="http://127.0.0.1:5000"
 @app.route('/')
 def index():

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>{{books['book_name']}}</title>
-</head>
-<body>
-
+{% extends 'base.html' %}
+{% block content %}
+<hi>{{books['book_name']}}</hi>
 <h1>{{books['chapter_no']}}</h1>
 {% if books['chapter_no'] !=0 %}
 <a href="/handle_read/{{books['book_id']}}/{{books['chapter_no']-1}}"><button type="button">PREVIOUS CHAPTER</button></a>
@@ -20,5 +16,4 @@
 <a href="/handle_read/{{books['book_id']}}/{{books['chapter_no']+1}}"><button type="button">NEXT CHAPTER</button></a>
 {% end if %}   
 
-</body>
-</html>
+{% endblock %}
