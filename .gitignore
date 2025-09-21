@@ -1,3 +1,4 @@
 architecture.drawio
 *.sqlite
 *.sqlite-journal
+*.epub

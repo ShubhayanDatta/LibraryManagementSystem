@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS READING
    user_id integer, 
    date_of_start DATE,
    date_of_end DATE,
-   chapter_no text,
+   chapter_no integer,
    FOREIGN KEY(book_id) REFERENCES BOOKS(book_id),
    FOREIGN KEY(user_id) REFERENCES USERS(user_id)
 );
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS LOGIN_RECORD
    token text primary key,
    user_id integer,
    login_time timestamp,
+   is_active BOOLEAN,
    FOREIGN KEY(user_id) REFERENCES USERS(user_id)
 );
 
