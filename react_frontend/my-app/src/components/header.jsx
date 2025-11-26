@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './Header.css'
-import RegistrationPopup from './register.jsx'
+import RegistrationPopup from './adminLogin.jsx'
 import useAuthStore from '../store.js'
 import {useGenreStore} from '../store.js'
 import {usePageStore} from '../store.js'
@@ -46,7 +46,7 @@ function LibraryHeader() {
   }
 
   function logout(){
-    axios.post(`${base_url}/logout`,{},{
+    axios.post(`${base_url}/admin_logout`,{},{
     headers: {
       'Authorization': token
     }}).then((response)=>{    
@@ -59,7 +59,7 @@ function LibraryHeader() {
     <>
         <header>
         <div className="title-container">
-        <h1>Library</h1>
+        <h1>Library Management</h1>
         </div>
         <div className="header-content">
         <ul className="tabs">
@@ -83,7 +83,7 @@ function LibraryHeader() {
             <button  onClick={()=>setPage('searchterm')}>Search</button>
         </div>
         { token==='' &&
-         <button onClick={()=>registerPopup()} className="register-btn">Register</button> 
+         <button onClick={()=>registerPopup()} className="register-btn">Login</button> 
         }
 
         { token!=='' &&

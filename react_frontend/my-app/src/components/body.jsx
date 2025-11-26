@@ -3,7 +3,7 @@ import TrendingBody  from './trending.jsx'
 import GenreLibraryBody from './books.jsx'
 import DetailsBody from './detail.jsx'
 import SearchLibraryBody from './search.jsx'
-import PageBody from './read.jsx'
+import UpdateBody from './bookUpdate.jsx'
 import {usePageStore} from '../store.js'
 import './Body.css'
 
@@ -31,8 +31,8 @@ function LibraryBody() {
         <SearchLibraryBody></SearchLibraryBody>
       }
 
-      {page==='content' && 
-        <PageBody></PageBody>
+      {page==='update' && 
+        <UpdateBody></UpdateBody>
       }
      </div>
     </>

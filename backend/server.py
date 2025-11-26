@@ -43,8 +43,8 @@ def add_book():
    with connection:
       cursor=connection.cursor()
       token=(request.headers['Authorization'])
-      user_id=check_valid_token(token,True)
-      if not user_id:
+      user_id = check_valid_token(token, check_admin_token= True)
+      if user_id==None:
          return 'invalid login'
       book_name=(request.form['book_name'])
       author=(request.form['author'])
@@ -82,7 +82,9 @@ def update():
       summary=(request.form['summary'])
       genre=(request.form['genre'])
       book_url=(request.form['book_url'])
-      cursor.execute(f"update BOOKS set book_name ='{book_name}', author ='{author}', summary ='{summary}', genre='{genre}', book_url ='{book_url}'  where book_id ='{book_id}' ")
+      cursor.execute("UPDATE BOOKS SET book_name=?, author=?, summary=?, genre=?, book_url=? WHERE book_id=?",
+       (book_name, author, summary, genre, book_url, book_id)
+      )
       connection.commit()    
       return "success"
 
@@ -259,13 +261,25 @@ def login_admin():
       cursor.execute(f"select * from ADMIN where admin_id ='{admin_id}' and password ='{password}';")
       result=cursor.fetchone()
       if result==None:
+       print('wrong admin id/password')
        return 'wrong admin id/password'
       else:
          unique_string= str(result[1])+admin_id+str(time.time())
          new_access_token= hashlib.md5(unique_string.encode()).hexdigest()
-         cursor.execute(f"insert into LOGIN_ADMIN_RECORD(token, admin_id, login_time) values('{new_access_token}','{result[0]}','{time.time()}')")
+         cursor.execute(f"insert into LOGIN_ADMIN_RECORD(token, admin_id, login_time, is_active) values('{new_access_token}','{result[0]}','{time.time()}',1)")
          result_dictionary={'admin_id':result[0], 'access_token':new_access_token}
+         print(result_dictionary)
          return result_dictionary
+
+@app.route('/admin_logout',methods=['POST'])
+def logout_admin():
+   with connection:
+      cursor=connection.cursor()
+      token=(request.headers['Authorization'])
+      user_id = check_valid_token(token, check_admin_token= True)
+   
+      cursor.execute(f"update LOGIN_ADMIN_RECORD set is_active = 0 where admin_id = '{user_id}'")
+      return 'successful logout'
    
 def get_book_content(book_id, chapter_no):
     with connection:
@@ -356,6 +370,10 @@ def check_reading_status():
 @app.route('/record')
 def lending_record():
    with connection.cursor() as cursor:
+      token=(request.headers['Authorization'])
+      user_id = check_valid_token(token, check_admin_token= True)
+      if user_id==None:
+         return 'invalid login'
       user_id=(request.args.get('user_id'))
       book_id=(request.args.get('book_id'))
       cursor.execute(f"select * from READING where user_id ='{user_id}' or book_id ='{book_id}';")

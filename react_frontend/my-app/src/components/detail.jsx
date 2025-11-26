@@ -23,48 +23,14 @@ function DetailsBody() {
  const show_popup= usePopupStore((state)=>state.show_popup)
  
  const [bookDetails, setBookDetails] = useState({})
- const [readStatus, setReadStatus] = useState('')
+ 
 
  useEffect(() => {
     axios.get(`${base_url}/display?book_id=${book_id}`).then((response)=>{
         setBookDetails(response.data)
     })
-    CheckReadingStatus()
-
+   
  },[book_id]);
-
- function CheckReadingStatus(){
-    axios.get(`${base_url}/check_reading_status?book_id=${book_id}`,{
-     headers: {
-      'Authorization': token
-      }}).then(
-      (response)=>{
-         if(response.data=='invalid login')
-         {
-               setPopup('true')
-         }
-         else{
-               setReadStatus(response.data)
-         }})
- }
-
- function UpdateReadingStatus(){
-
-      var form_data = new FormData()
-      form_data.append('book_id', book_id)
-      form_data.append('reading_status', 'complete')
-      
-      axios.postForm(`${base_url}/update_read`,form_data,{
-                    headers: {
-                    'Authorization': token
-                    }}).then((response)=>{    
-                        return ''})
-   }
-
-
-
-
-
 
 
 
@@ -77,11 +43,10 @@ function DetailsBody() {
         <div className="book-description">
            {bookDetails.summary}
         </div>
-        <button className="start-button" onClick={()=>{setPage('content')}} >Start Reading</button>
+        <button className="start-button" onClick={()=>{setPage('update')}}>Update Book</button>
 
-        {readStatus==='not complete' &&
-           <button className="complete-button" onClick={()=>{UpdateReadingStatus()}} >Mark as Complete</button>
-        }
+        <button className="complete-button" >Delete Book</button>
+   
      </div>
     </>
   )

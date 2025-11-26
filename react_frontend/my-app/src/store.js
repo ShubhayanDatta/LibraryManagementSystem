@@ -5,16 +5,16 @@ const useAuthStore = create(
   persist(
     (set) => ({
       token: "",
-      user_name: "",
-      setUserDetails: (input_token, input_user_name) =>
+      admin_id: "",
+      setUserDetails: (input_token, input_admin_id) =>
         set({
           token: input_token,
-          user_name: input_user_name,
+          admin_id: input_admin_id,
         }),
       clearUser: () =>
         set({
           token: "",
-          user_name: "",
+          admin_id: "",
         }),
     }),
     {
