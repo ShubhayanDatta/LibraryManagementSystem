@@ -4,6 +4,7 @@ import GenreLibraryBody from './books.jsx'
 import DetailsBody from './detail.jsx'
 import SearchLibraryBody from './search.jsx'
 import UpdateBody from './bookUpdate.jsx'
+import AddBody from './addBook.jsx'
 import {usePageStore} from '../store.js'
 import './Body.css'
 
@@ -33,6 +34,10 @@ function LibraryBody() {
 
       {page==='update' && 
         <UpdateBody></UpdateBody>
+      }
+
+      {page==='add' && 
+        <AddBody></AddBody>
       }
      </div>
     </>

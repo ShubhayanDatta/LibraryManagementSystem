@@ -51,7 +51,10 @@ def add_book():
       summary=(request.form['summary'])
       genre=(request.form['genre'])
       book_url=(request.form['book_url'])
-      cursor.execute(f"insert into BOOKS(book_name, author, summary, genre, book_url) values ('{book_name}', '{author}', '{summary}', '{genre}', '{book_url}');")
+      cursor.execute(
+       "INSERT INTO BOOKS (book_name, author, summary, genre, book_url) VALUES (?, ?, ?, ?, ?)",
+       (book_name, author, summary, genre, book_url)
+      )
       connection.commit()    
       return "success"
 
