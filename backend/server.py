@@ -64,7 +64,7 @@ def remove_book():
       if not user_id:
          return 'invalid login'
       book_id=(request.form['book_id'])
-      cursor.execute(f"delete from BOOKS where book_id ='{book_id}' ")
+      cursor.execute(f"UPDATE BOOKS SET is_deleted = 1 WHERE book_id = '{book_id}' ")
       connection.commit()    
       return "success"
 
@@ -91,7 +91,7 @@ def show_book():
    with connection:
       cursor=connection.cursor()
       book_id=(request.args.get('book_id'))
-      cursor.execute(f"select * from BOOKS where book_id ='{book_id}';")
+      cursor.execute(f"select * from BOOKS where book_id ='{book_id}' AND is_deleted = 0;")
       result=cursor.fetchall()
       result_dictionary={'book_id':result[0][0],'book_name':result[0][1],'author':result[0][2],'summary':result[0][3],'genre':result[0][4],'book_url':result[0][5]} 
       return result_dictionary
@@ -104,7 +104,7 @@ def search_book():
       user_id=check_valid_token(token)
       search_term=(request.args.get('search_term'))
       print(search_term)
-      cursor.execute('select * from BOOKS where book_name like "%'+search_term+'%" ;')
+      cursor.execute('select * from BOOKS where book_name like "%'+search_term+'%" AND is_deleted = 0;')
       result=cursor.fetchall()
    
       if result!=None:
@@ -136,9 +136,9 @@ def show_database():
       user_id=check_valid_token(token)
       genre=(request.args.get('genre'))
       if(genre==None):
-         cursor.execute("select * from BOOKS;")
+         cursor.execute("select * from BOOKS where is_deleted = 0;")
       else:
-         cursor.execute(f"select * from BOOKS where genre='{genre}';")
+         cursor.execute(f"select * from BOOKS where genre='{genre}' AND is_deleted = 0;")
       result=cursor.fetchall()
       result_dictionary=[]
       for row in result:
@@ -146,7 +146,7 @@ def show_database():
         result_dictionary.append(row_dictionary)
         if user_id:
             for row in result_dictionary:
-               cursor.execute(f"select * from READING where user_id ='{user_id}' and book_id ='{row['book_id']}';")
+               cursor.execute(f"select * from READING where user_id ='{user_id}' and book_id ='{row['book_id']}' AND is_deleted = 0;")
                result_status=cursor.fetchone()
                if result_status==None: 
                   reading_status = 'not complete'
@@ -162,7 +162,7 @@ def show_database():
 def show_genre():
    with connection:
       cursor=connection.cursor()
-      cursor.execute(f"select DISTINCT genre from BOOKS ;")
+      cursor.execute(f"select DISTINCT genre from BOOKS where is_deleted = 0 ;")
       result=cursor.fetchall()
 
       result_dictionary=[]
@@ -184,7 +184,7 @@ def show_trending():
          """SELECT *
             FROM (
             SELECT *, ROW_NUMBER() OVER (PARTITION BY genre ORDER BY book_id) AS rn
-            FROM BOOKS)
+            FROM BOOKS WHERE is_deleted = 0)
             WHERE rn = 1;""")
       result=cursor.fetchall()
       result_dictionary=[]
