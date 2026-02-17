@@ -84,6 +84,14 @@ export const useChapterNoStore = create((set)=>({
     decreaseChapNo:()=>set((state) => ({ chap_no: state.chap_no - 1 }))
 }))
 
+export const useSearchRecordStore = create((set)=>({
+    search_record:'', 
+    setSearchRecord:(input_search_record)=>set({
+        search_record: input_search_record
+    })
+
+
+}))
 
 
 

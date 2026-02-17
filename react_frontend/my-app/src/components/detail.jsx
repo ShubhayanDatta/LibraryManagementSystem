@@ -32,6 +32,25 @@ function DetailsBody() {
    
  },[book_id]);
 
+ function deleteBook() {
+  
+  axios.postForm(`${base_url}/delete`, {book_id: book_id},{
+    headers: {
+    'Authorization': token
+     }}).then(
+    (response)=>{
+        if(response.data=='invalid login')
+        {
+            setPopup('true')
+        }
+        else{
+            let message = "Book deleted from the library";
+            alert(message);
+        }
+    })
+
+ }
+
 
 
   return (
@@ -45,7 +64,7 @@ function DetailsBody() {
         </div>
         <button className="start-button" onClick={()=>{setPage('update')}}>Update Book</button>
 
-        <button className="complete-button" >Delete Book</button>
+        <button className="complete-button" onClick={()=>{deleteBook(); setPage('')}}>Delete Book</button>
    
      </div>
     </>

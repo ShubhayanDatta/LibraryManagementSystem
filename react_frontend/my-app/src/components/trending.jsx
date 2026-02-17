@@ -22,7 +22,7 @@ function TrendingBody() {
 
       <div className="button-group">
       <button className="see-details" onClick={()=>{setPage('add')}}>Add Book</button>
-      <button className="see-details right-button">Show Library Records</button>
+      <button className="see-details right-button" onClick={()=>{setPage('record')}}>Show Library Records</button>
       </div>
      </div>
     </>

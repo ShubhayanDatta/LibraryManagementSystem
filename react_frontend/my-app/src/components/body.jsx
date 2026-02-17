@@ -5,6 +5,8 @@ import DetailsBody from './detail.jsx'
 import SearchLibraryBody from './search.jsx'
 import UpdateBody from './bookUpdate.jsx'
 import AddBody from './addBook.jsx'
+import RecordBody from './record.jsx'
+import SearchRecordLibraryBody from './searchRecord.jsx'
 import {usePageStore} from '../store.js'
 import './Body.css'
 
@@ -39,6 +41,15 @@ function LibraryBody() {
       {page==='add' && 
         <AddBody></AddBody>
       }
+
+      {page==='record' && 
+        <RecordBody></RecordBody>
+      }
+
+      {page==='searchrecord' && 
+        <SearchRecordLibraryBody></SearchRecordLibraryBody>
+      }
+      
      </div>
     </>
   )

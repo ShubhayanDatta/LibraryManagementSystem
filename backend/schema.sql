@@ -6,7 +6,8 @@ create table if not exists BOOKS
     author varchar(30),
     summary text,
     genre text,
-    book_url text
+    book_url text,
+    is_deleted INTEGER NOT NULL CHECK (is_deleted IN (0, 1)) DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS USERS
 (  
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS ADMIN
    admin_id INTEGER primary key,
    password text
 );
+
 CREATE TABLE IF NOT EXISTS LOGIN_RECORD
 (
    token text primary key,
